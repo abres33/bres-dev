@@ -2,12 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 
-function cn(...classes: (string | undefined)[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export interface CursorDrivenParticleTypographyProps {
-  className?: string;
   text: string;
   fontSize?: number;
   fontFamily?: string;
@@ -97,7 +92,6 @@ class Particle {
 }
 
 export function CursorDrivenParticleTypography({
-  className,
   text,
   fontSize = 120,
   fontFamily = "Inter, sans-serif",
@@ -247,12 +241,21 @@ export function CursorDrivenParticleTypography({
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "w-full h-full min-h-[400px] flex items-center justify-center relative touch-none",
-        className
-      )}
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: "400px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        touchAction: "none",
+      }}
     >
-      <canvas ref={canvasRef} className="block w-full h-full" />
+      <canvas
+        ref={canvasRef}
+        style={{ display: "block", width: "100%", height: "100%" }}
+      />
     </div>
   );
 }
