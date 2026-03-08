@@ -147,7 +147,7 @@ export function CursorDrivenParticleTypography({
 
       ctx.clearRect(0, 0, containerWidth, containerHeight);
 
-      const effectiveFontSize = Math.min(fontSize, containerWidth * 0.15);
+      const effectiveFontSize = Math.min(fontSize, containerWidth * 0.4);
       ctx.fillStyle = textColor;
       ctx.font = `bold ${effectiveFontSize}px ${fontFamily}`;
       ctx.textAlign = "center";

@@ -8,9 +8,9 @@ export default function App() {
         height: "100vh",
         background: "#000",
         color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        position: "fixed",
+        top: 0,
+        left: 0,
       }}
     >
       <CursorDrivenParticleTypography
@@ -18,6 +18,7 @@ export default function App() {
         fontSize={160}
         particleDensity={5}
         dispersionStrength={20}
+        color="#ffffff"
       />
     </div>
   );
