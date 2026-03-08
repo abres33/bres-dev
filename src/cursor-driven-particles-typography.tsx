@@ -141,9 +141,15 @@ export function CursorDrivenParticleTypography({
 
       ctx.clearRect(0, 0, containerWidth, containerHeight);
 
-      const effectiveFontSize = Math.min(fontSize, containerWidth * 0.4);
-      ctx.fillStyle = textColor;
+      let effectiveFontSize = fontSize;
       ctx.font = `bold ${effectiveFontSize}px ${fontFamily}`;
+      const maxWidth = containerWidth * 0.9;
+      const measuredWidth = ctx.measureText(text).width;
+      if (measuredWidth > maxWidth) {
+        effectiveFontSize = effectiveFontSize * (maxWidth / measuredWidth);
+        ctx.font = `bold ${effectiveFontSize}px ${fontFamily}`;
+      }
+      ctx.fillStyle = textColor;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
@@ -205,6 +211,19 @@ export function CursorDrivenParticleTypography({
       mouseY = -1000;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches[0];
+      mouseX = touch.clientX - rect.left;
+      mouseY = touch.clientY - rect.top;
+    };
+
+    const handleTouchEnd = () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    };
+
     const handleResize = () => {
       init();
     };
@@ -221,12 +240,18 @@ export function CursorDrivenParticleTypography({
 
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
+    canvas.addEventListener("touchstart", handleTouchMove, { passive: false });
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+    canvas.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       clearTimeout(timeoutId);
       resizeObserver.disconnect();
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      canvas.removeEventListener("touchstart", handleTouchMove);
+      canvas.removeEventListener("touchmove", handleTouchMove);
+      canvas.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(animationFrameId);
     };
   }, [
