@@ -158,7 +158,9 @@ export function CursorDrivenParticleTypography({
 
       particles = [];
 
-      const step = Math.max(1, Math.floor(particleDensity * dpr));
+      const fontScale = effectiveFontSize / fontSize;
+      const adjustedScale = fontScale + (1 - fontScale) * 0.5;
+      const step = Math.max(1, Math.floor(particleDensity * dpr * adjustedScale));
 
       for (let y = 0; y < textCoordinates.height; y += step) {
         for (let x = 0; x < textCoordinates.width; x += step) {
